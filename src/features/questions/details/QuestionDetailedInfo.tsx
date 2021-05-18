@@ -22,7 +22,7 @@ const QuestionDetailedInfo: React.FC<{ question: IQuestion }> = ({ question }) =
             <Icon name='calendar' size='large' color='teal' />
           </Grid.Column>
           <Grid.Column width={15}>
-            <span>{format(question.date, 'eeee do MMMM')} at {format(question.date!, 'h:mm a')}</span>
+            <span>{format(question.createdAt, 'eeee do MMMM')} at {format(question.createdAt!, 'h:mm a')}</span>
           </Grid.Column>
         </Grid>
       </Segment>

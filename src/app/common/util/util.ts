@@ -17,7 +17,7 @@ export const combineDateAndTime = (date: Date, time: Date) => {
 }
 
 export const setQuestionProps = (question: IQuestion) => {
-  question.date = new Date(question.date);
+  question.createdAt = new Date(question.createdAt);
   return question;
 }
 

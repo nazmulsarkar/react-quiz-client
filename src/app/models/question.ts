@@ -7,7 +7,7 @@ export interface IQuestion {
   id: string;
   title: string;
   description: string;
-  date: Date;
+  createdAt: Date;
   attendees: IAnswerBy[];
   comments: IComment[];
 }
@@ -39,8 +39,8 @@ export class QuestionFormValues implements IQuestionFormValues {
   time?: Date = undefined;
 
   constructor(init?: IQuestionFormValues) {
-    if (init && init.date) {
-      init.time = init.date;
+    if (init && init.createdAt) {
+      init.time = init.createdAt;
     }
     Object.assign(this, init);
   }

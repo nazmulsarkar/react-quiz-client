@@ -106,12 +106,12 @@ export default class QuestionStore {
 
   groupQuestionsByDate(questions: IQuestion[]) {
     const sortedQuestions = questions.sort(
-      (a, b) => a.date.getTime() - b.date.getTime()
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
     );
     return Object.entries(
       sortedQuestions.reduce(
         (questions, question) => {
-          const date = question.date.toISOString().split('T')[0];
+          const date = question.createdAt.toISOString().split('T')[0];
           questions[date] = questions[date]
             ? [...questions[date], question]
             : [question];

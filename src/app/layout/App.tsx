@@ -19,6 +19,7 @@ import { Role } from '../common/helpers/role';
 import QuestionForm from '../../features/questions/form/QuestionForm';
 import QuestionDashboard from '../../features/questions/dashboard/QuestionDashboard';
 import QuestionDetails from '../../features/questions/details/QuestionDetails';
+import AnswerDashboard from '../../features/answers/dashboard/AnswerDashboard';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -55,7 +56,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   roles={[Role.Admin]}
                   component={QuestionForm}
                 />
-                <PrivateRoute exact path='/questions' roles={[Role.Admin]} component={QuestionDashboard} />
+                <PrivateRoute exact path='/answers' roles={[Role.Admin]} component={AnswerDashboard} />
                 <Route component={NotFound} />
               </Switch>
             </Container>

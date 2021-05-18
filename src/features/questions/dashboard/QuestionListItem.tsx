@@ -2,7 +2,7 @@ import React from 'react';
 import { Item, Button, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { IQuestion } from '../../../app/models/question';
-import QuestionListItemAttendees from './QuestionListItemAttendees';
+// import QuestionListItemAttendees from './QuestionListItemAttendees';
 
 const QuestionListItem: React.FC<{ question: IQuestion }> = ({ question }) => {
   return (
@@ -18,9 +18,9 @@ const QuestionListItem: React.FC<{ question: IQuestion }> = ({ question }) => {
           </Item>
         </Item.Group>
       </Segment>
-      <Segment secondary>
+      {/* <Segment secondary>
         <QuestionListItemAttendees attendees={question.attendees} />
-      </Segment>
+      </Segment> */}
       <Segment clearing>
         <span>{question.description}</span>
         <Button

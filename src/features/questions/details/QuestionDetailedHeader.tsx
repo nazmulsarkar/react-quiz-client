@@ -40,7 +40,7 @@ const QuestionDetailedHeader: React.FC<{ question: IQuestion }> = ({
                   content={question.title}
                   style={{ color: 'white' }}
                 />
-                <p>{format(question.date, 'eeee do MMMM')}</p>
+                <p>{format(question.createdAt, 'eeee do MMMM')}</p>
               </Item.Content>
             </Item>
           </Item.Group>

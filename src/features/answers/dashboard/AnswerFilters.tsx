@@ -1,6 +1,5 @@
 import React, { Fragment, useContext } from 'react';
 import { Menu, Header } from 'semantic-ui-react';
-import { Calendar } from 'react-widgets';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { observer } from 'mobx-react-lite';
 
@@ -19,16 +18,6 @@ const AnswerFilters = () => {
           content={'All Answers'}
         />
       </Menu>
-      <Header
-        icon={'calendar'}
-        attached
-        color={'teal'}
-        content={'Select Date'}
-      />
-      <Calendar
-        onChange={date => setPredicate('startDate', date!)}
-        value={predicate.get('startDate') || new Date()}
-      />
     </Fragment>
   );
 };
