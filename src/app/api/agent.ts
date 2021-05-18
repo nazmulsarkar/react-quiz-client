@@ -100,8 +100,10 @@ const User = {
   current: (): Promise<IUser> => requests.post('/auth/me', {}),
   login: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`/auth/login`, user),
-  register: (user: IUserFormValues): Promise<IUser> =>
-    requests.post(`/auth/signup`, user)
+  registerAdmin: (user: IUserFormValues): Promise<IUser> =>
+    requests.post(`/auth/signupadmin`, user),
+  registerUser: (user: IUserFormValues): Promise<IUser> =>
+    requests.post(`/auth/signupuser`, user)
 };
 
 export default {

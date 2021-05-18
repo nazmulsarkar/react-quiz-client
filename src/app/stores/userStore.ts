@@ -3,6 +3,7 @@ import { IUser, IUserFormValues } from '../models/user';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
 import { history } from '../..';
+import { Role } from '../common/helpers/role';
 
 export default class UserStore {
   rootStore: RootStore;
@@ -34,10 +35,22 @@ export default class UserStore {
 
   @action register = async (values: IUserFormValues) => {
     try {
-      const user = await agent.User.register(values);
-      this.rootStore.commonStore.setToken(user.token);
+      let user;
+      if (values.role === Role.Admin) {
+        values.role = undefined;
+        user = await agent.User.registerAdmin(values);
+      } else if (values.role === Role.User) {
+        values.role = undefined;
+        user = await agent.User.registerUser(values);
+      } else {
+        values.roles = [Role.Anonymous];
+        values.role = undefined;
+      }
+
+      // this.rootStore.commonStore.setToken(user.token);
       this.rootStore.modalStore.closeModal();
-      history.push('/questions')
+      if (user) console.log(user);
+      // history.push('/questions')
     } catch (error) {
       throw error;
     }

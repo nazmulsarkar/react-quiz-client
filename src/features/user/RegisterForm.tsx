@@ -7,12 +7,16 @@ import { IUserFormValues } from '../../app/models/user';
 import { FORM_ERROR } from 'final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import ErrorMessage from '../../app/common/form/ErrorMessage';
+import SelectInput from '../../app/common/form/SelectInput';
+import { signupOptions } from '../../app/common/options/signupOptions';
+import { Role } from '../../app/common/helpers/role';
 
 const validate = combineValidators({
   username: isRequired('Username'),
   displayName: isRequired('DisplayName'),
   email: isRequired('Email'),
-  password: isRequired('Password')
+  password: isRequired('Password'),
+  role: isRequired('UserType'),
 });
 
 const RegisterForm = () => {
@@ -53,6 +57,13 @@ const RegisterForm = () => {
             component={TextInput}
             placeholder='Password'
             type='password'
+          />
+          <Field
+            component={SelectInput}
+            options={signupOptions}
+            name='role'
+            placeholder='UserType'
+            value={Role.Admin}
           />
           {submitError && !dirtySinceLastSubmit && (
             <ErrorMessage

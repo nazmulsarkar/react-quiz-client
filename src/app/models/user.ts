@@ -11,6 +11,7 @@ export interface IUserFormValues {
     email: string;
     password: string;
     roles: string[];
+    role?: string;
     displayName?: string;
     username?: string;
 }
