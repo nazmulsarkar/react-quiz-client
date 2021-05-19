@@ -6,7 +6,7 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 import InfiniteScroll from 'react-infinite-scroller';
 import QuestionListItemPlaceholder from './QuestionListItemPlaceholder';
 
-export default observer(function QuestionDashboard() { {
+const QuestionDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const {
     loadQuestions,
