@@ -76,8 +76,8 @@ const requests = {
 
 const Questions = {
   list: (params: URLSearchParams): Promise<IQuestionsEnvelope> =>
-    axios.get('/questions', { params: params }).then(responseBody),
-  details: (id: string) => requests.get(`/questions/${id}`),
+    axios.post('/questions/filtered', { params: params }).then(responseBody),
+  details: (id: string) => requests.post(`/questions/${id}`, {}),
   create: (question: IQuestion) => requests.post('/questions', question),
   update: (question: IQuestion) =>
     requests.put(`/questions/${question._id}`, question),

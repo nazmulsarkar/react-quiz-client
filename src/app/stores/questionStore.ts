@@ -6,10 +6,8 @@ import { history } from '../..';
 import { toast } from 'react-toastify';
 import { RootStore } from './rootStore';
 import { setQuestionProps, createAttendee } from '../common/util/util';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 
 const LIMIT = 2;
-
 export default class QuestionStore {
   rootStore: RootStore;
   constructor(rootStore: RootStore) {
@@ -31,7 +29,6 @@ export default class QuestionStore {
   @observable submitting = false;
   @observable target = '';
   @observable loading = false;
-  @observable.ref hubConnection: HubConnection | null = null;
   @observable questionCount = 0;
   @observable page = 0;
   @observable predicate = new Map();
@@ -65,39 +62,6 @@ export default class QuestionStore {
     this.page = page;
   }
 
-  @action createHubConnection = () => {
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
-        accessTokenFactory: () => this.rootStore.commonStore.token!
-      })
-      .configureLogging(LogLevel.Information)
-      .build();
-
-    this.hubConnection
-      .start()
-      .then(() => console.log(this.hubConnection!.state))
-      .catch(error => console.log('Error establishing connection: ', error));
-
-    this.hubConnection.on('ReceiveComment', comment => {
-      runInAction(() => {
-        this.question!.comments.push(comment)
-      })
-    })
-  };
-
-  @action stopHubConnection = () => {
-    this.hubConnection!.stop()
-  }
-
-  @action addComment = async (values: any) => {
-    values.questionId = this.question!._id;
-    try {
-      await this.hubConnection!.invoke('SendComment', values)
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   @computed get questionsByDate() {
     return this.groupQuestionsByDate(
       Array.from(this.questionRegistry.values())
@@ -105,21 +69,11 @@ export default class QuestionStore {
   }
 
   groupQuestionsByDate(questions: IQuestion[]) {
-    const sortedQuestions = questions.sort(
-      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
-    return Object.entries(
-      sortedQuestions.reduce(
-        (questions, question) => {
-          const date = question.createdAt.split('T')[0];
-          questions[date] = questions[date]
-            ? [...questions[date], question]
-            : [question];
-          return questions;
-        },
-        {} as { [key: string]: IQuestion[] }
-      )
-    );
+    console.log(questions)
+    // const sortedQuestions = questions.sort(
+    //   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    // );
+    return questions;
   }
 
   @action loadQuestions = async () => {
@@ -178,17 +132,12 @@ export default class QuestionStore {
   @action createQuestion = async (question: IQuestion) => {
     this.submitting = true;
     try {
-      await agent.Questions.create(question);
-      const attendee = createAttendee(this.rootStore.userStore.user!);
-      let attendees = [];
-      attendees.push(attendee);
-      question.attendees = attendees;
-      question.comments = [];
+      const q = await agent.Questions.create(question);
       runInAction('create question', () => {
-        this.questionRegistry.set(question._id, question);
+        this.questionRegistry.set(q._id, q);
         this.submitting = false;
       });
-      history.push(`/questions/${question._id}`);
+      history.push(`/questions/${q._id}`);
     } catch (error) {
       runInAction('create question error', () => {
         this.submitting = false;

@@ -5,7 +5,6 @@ import { RouteComponentProps } from 'react-router';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import QuestionDetailedHeader from './QuestionDetailedHeader';
 import QuestionDetailedInfo from './QuestionDetailedInfo';
-import QuestionDetailedSidebar from './QuestionDetailedSidebar';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 
 interface DetailParams {
@@ -34,7 +33,6 @@ const QuestionDetails: React.FC<RouteComponentProps<DetailParams>> = ({
         <QuestionDetailedInfo question={question} />
       </Grid.Column>
       <Grid.Column width={6}>
-        <QuestionDetailedSidebar attendees={question.attendees} />
       </Grid.Column>
     </Grid>
   );

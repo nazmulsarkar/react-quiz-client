@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react';
 import { IQuestion } from '../../../app/models/question';
 import { observer } from 'mobx-react-lite';
-import { format } from 'date-fns';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import { format } from 'date-fns';
 
 const questionImageStyle = {
   filter: 'brightness(30%)'
