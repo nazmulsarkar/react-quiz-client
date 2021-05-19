@@ -17,7 +17,7 @@ const QuestionList: React.FC = () => {
           </Label>
           <Item.Group divided>
             {questions.map(question => (
-              <QuestionListItem key={question.id} question={question} />
+              <QuestionListItem key={question._id} question={question} />
             ))}
           </Item.Group>
         </Fragment>

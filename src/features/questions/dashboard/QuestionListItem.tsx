@@ -11,7 +11,7 @@ const QuestionListItem: React.FC<{ question: IQuestion }> = ({ question }) => {
         <Item.Group>
           <Item>
             <Item.Content>
-              <Item.Header as={Link} to={`/questions/${question.id}`}>
+              <Item.Header as={Link} to={`/questions/${question._id}`}>
                 {question.title}
               </Item.Header>
             </Item.Content>
@@ -25,7 +25,7 @@ const QuestionListItem: React.FC<{ question: IQuestion }> = ({ question }) => {
         <span>{question.description}</span>
         <Button
           as={Link}
-          to={`/questions/${question.id}`}
+          to={`/questions/${question._id}`}
           floated='right'
           content='View'
           color='blue'

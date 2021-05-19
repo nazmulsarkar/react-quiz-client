@@ -7,8 +7,6 @@ import { RouteComponentProps } from 'react-router';
 import { Form as FinalForm, Field } from 'react-final-form';
 import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
-import DateInput from '../../../app/common/form/DateInput';
-import { combineDateAndTime } from '../../../app/common/util/util';
 import {
   combineValidators,
   isRequired,
@@ -19,17 +17,12 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
   title: isRequired({ message: 'The event title is required' }),
-  category: isRequired('Category'),
   description: composeValidators(
     isRequired('Description'),
     hasLengthGreaterThan(4)({
       message: 'Description needs to be at least 5 characters'
     })
-  )(),
-  city: isRequired('City'),
-  venue: isRequired('Venue'),
-  date: isRequired('Date'),
-  time: isRequired('Time')
+  )()
 });
 
 interface DetailParams {
@@ -63,13 +56,11 @@ const QuestionForm: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadQuestion, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
-    const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...question } = values;
-    question.date = dateAndTime;
-    if (!question.id) {
+    if (!question._id) {
       let newQuestion = {
         ...question,
-        id: uuid()
+        _id: uuid()
       };
       createQuestion(newQuestion);
     } else {
@@ -100,22 +91,6 @@ const QuestionForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   value={question.description}
                   component={TextAreaInput}
                 />
-                <Form.Group widths='equal'>
-                  <Field
-                    component={DateInput}
-                    name='date'
-                    date={true}
-                    placeholder='Date'
-                    value={question.date}
-                  />
-                  <Field
-                    component={DateInput}
-                    name='time'
-                    time={true}
-                    placeholder='Time'
-                    value={question.time}
-                  />
-                </Form.Group>
 
                 <Button
                   loading={submitting}
@@ -127,8 +102,8 @@ const QuestionForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Button
                   onClick={
-                    question.id
-                      ? () => history.push(`/questions/${question.id}`)
+                    question._id
+                      ? () => history.push(`/questions/${question._id}`)
                       : () => history.push('/questions')
                   }
                   disabled={loading}

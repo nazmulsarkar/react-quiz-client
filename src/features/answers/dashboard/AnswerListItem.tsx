@@ -10,7 +10,7 @@ const AnswerListItem: React.FC<{ answer: IAnswer }> = ({ answer }) => {
         <Item.Group>
           <Item>
             <Item.Content>
-              <Item.Header as={Link} to={`/answers/${answer.id}`}>
+              <Item.Header as={Link} to={`/answers/${answer._id}`}>
                 {answer.title}
               </Item.Header>
             </Item.Content>
@@ -26,7 +26,7 @@ const AnswerListItem: React.FC<{ answer: IAnswer }> = ({ answer }) => {
         <span>{answer.description}</span>
         <Button
           as={Link}
-          to={`/answers/${answer.id}`}
+          to={`/answers/${answer._id}`}
           floated='right'
           content='View'
           color='blue'

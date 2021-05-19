@@ -15,7 +15,7 @@ const QuestionListItemAttendees: React.FC<IProps> = ({ attendees }) => {
   return (
     <List horizontal>
       {attendees.map(attendee => (
-        <List.Item key={attendee.id}>
+        <List.Item key={attendee._id}>
           <Popup
             header={attendee.displayName}
             trigger={

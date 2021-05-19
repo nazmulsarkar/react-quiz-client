@@ -115,7 +115,7 @@ export default class AnswerStore {
       runInAction('loading answers', () => {
         answers.forEach(answer => {
           setAnswerProps(answer);
-          this.answerRegistry.set(answer.id, answer);
+          this.answerRegistry.set(answer._id, answer);
         });
         this.answerCount = answerCount;
         this.loadingInitial = false;
@@ -139,7 +139,7 @@ export default class AnswerStore {
         runInAction('getting answer', () => {
           setAnswerProps(answer);
           this.answer = answer;
-          this.answerRegistry.set(answer.id, answer);
+          this.answerRegistry.set(answer._id, answer);
           this.loadingInitial = false;
         });
         return answer;
@@ -165,10 +165,10 @@ export default class AnswerStore {
     try {
       await agent.Answers.create(answer);
       runInAction('create answer', () => {
-        this.answerRegistry.set(answer.id, answer);
+        this.answerRegistry.set(answer._id, answer);
         this.submitting = false;
       });
-      history.push(`/answers/${answer.id}`);
+      history.push(`/answers/${answer._id}`);
     } catch (error) {
       runInAction('create answer error', () => {
         this.submitting = false;
@@ -183,11 +183,11 @@ export default class AnswerStore {
     try {
       await agent.Answers.update(answer);
       runInAction('editing answer', () => {
-        this.answerRegistry.set(answer.id, answer);
+        this.answerRegistry.set(answer._id, answer);
         this.answer = answer;
         this.submitting = false;
       });
-      history.push(`/answers/${answer.id}`);
+      history.push(`/answers/${answer._id}`);
     } catch (error) {
       runInAction('edit answer error', () => {
         this.submitting = false;

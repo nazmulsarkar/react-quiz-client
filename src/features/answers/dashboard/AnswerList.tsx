@@ -17,7 +17,7 @@ const AnswerList: React.FC = () => {
           </Label>
           <Item.Group divided>
             {answers.map(answer => (
-              <AnswerListItem key={answer.id} answer={answer} />
+              <AnswerListItem key={answer._id} answer={answer} />
             ))}
           </Item.Group>
         </Fragment>

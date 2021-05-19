@@ -4,7 +4,7 @@ export interface IAnswersEnvelope {
 }
 
 export interface IAnswer {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   questionId: string;
@@ -14,7 +14,7 @@ export interface IAnswer {
 }
 
 export interface IAnswerBy {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   displayName: string;
@@ -27,13 +27,13 @@ export interface IAnswerFormValues extends Partial<IAnswer> {
 }
 
 export class AnswerFormValues implements IAnswerFormValues {
-  id?: string = undefined;
+  _id?: string = undefined;
   title: string = '';
   description: string = '';
   createdAt: Date = new Date();
   updatedAt: Date = new Date();
   answerBy: IAnswerBy = {
-    id: '',
+    _id: '',
     username: '',
     email: '',
     displayName: ''

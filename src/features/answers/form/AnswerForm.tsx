@@ -19,17 +19,13 @@ import { RootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
   title: isRequired({ message: 'The event title is required' }),
-  category: isRequired('Category'),
+  question: isRequired('Question'),
   description: composeValidators(
     isRequired('Description'),
     hasLengthGreaterThan(4)({
       message: 'Description needs to be at least 5 characters'
     })
-  )(),
-  city: isRequired('City'),
-  venue: isRequired('Venue'),
-  date: isRequired('Date'),
-  time: isRequired('Time')
+  )()
 });
 
 interface DetailParams {
@@ -66,7 +62,7 @@ const AnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
     const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...answer } = values;
     answer.date = dateAndTime;
-    if (!answer.id) {
+    if (!answer._id) {
       let newAnswer = {
         ...answer,
         id: uuid()
@@ -111,8 +107,8 @@ const AnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Button
                   onClick={
-                    answer.id
-                      ? () => history.push(`/answers/${answer.id}`)
+                    answer._id
+                      ? () => history.push(`/answers/${answer._id}`)
                       : () => history.push('/answers')
                   }
                   disabled={loading}

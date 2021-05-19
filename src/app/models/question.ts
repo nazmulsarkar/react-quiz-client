@@ -4,44 +4,40 @@ export interface IQuestionsEnvelope {
 }
 
 export interface IQuestion {
-  id: string;
+  _id: string;
   title: string;
   description: string;
-  createdAt: Date;
+  createdAt: string;
   attendees: IAnswerBy[];
   comments: IComment[];
 }
 export interface IAnswerBy {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   displayName: string;
 }
 
 export interface IComment {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   displayName: string;
   body: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface IQuestionFormValues extends Partial<IQuestion> {
-  time?: Date;
+  createdAt?: string;
 }
 
 export class QuestionFormValues implements IQuestionFormValues {
-  id?: string = undefined;
+  _id?: string = undefined;
   title: string = '';
   description: string = '';
-  date?: Date = undefined;
-  time?: Date = undefined;
+  createdAt?: string = undefined;
 
   constructor(init?: IQuestionFormValues) {
-    if (init && init.createdAt) {
-      init.time = init.createdAt;
-    }
     Object.assign(this, init);
   }
 }

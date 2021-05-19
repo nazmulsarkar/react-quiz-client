@@ -80,7 +80,7 @@ const Questions = {
   details: (id: string) => requests.get(`/questions/${id}`),
   create: (question: IQuestion) => requests.post('/questions', question),
   update: (question: IQuestion) =>
-    requests.put(`/questions/${question.id}`, question),
+    requests.put(`/questions/${question._id}`, question),
   delete: (id: string) => requests.del(`/questions/${id}`),
   attend: (id: string) => requests.post(`/questions/${id}/attend`, {}),
   unattend: (id: string) => requests.del(`/questions/${id}/attend`)
@@ -92,7 +92,7 @@ const Answers = {
   details: (id: string) => requests.get(`/answers/${id}`),
   create: (answer: IAnswer) => requests.post('/answers', answer),
   update: (answer: IAnswer) =>
-    requests.put(`/answers/${answer.id}`, answer),
+    requests.put(`/answers/${answer._id}`, answer),
   delete: (id: string) => requests.del(`/answers/${id}`)
 };
 

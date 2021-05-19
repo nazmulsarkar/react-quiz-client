@@ -4,10 +4,9 @@ import QuestionList from './QuestionList';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import InfiniteScroll from 'react-infinite-scroller';
-import QuestionFilters from './QuestionFilters';
 import QuestionListItemPlaceholder from './QuestionListItemPlaceholder';
 
-const QuestionDashboard: React.FC = () => {
+export default observer(function QuestionDashboard() { {
   const rootStore = useContext(RootStoreContext);
   const {
     loadQuestions,
@@ -45,7 +44,6 @@ const QuestionDashboard: React.FC = () => {
         )}
       </Grid.Column>
       <Grid.Column width={6}>
-        <QuestionFilters />
       </Grid.Column>
       <Grid.Column width={10}>
         <Loader active={loadingNext} />

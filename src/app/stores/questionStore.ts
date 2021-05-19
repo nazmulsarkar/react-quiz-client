@@ -90,7 +90,7 @@ export default class QuestionStore {
   }
 
   @action addComment = async (values: any) => {
-    values.questionId = this.question!.id;
+    values.questionId = this.question!._id;
     try {
       await this.hubConnection!.invoke('SendComment', values)
     } catch (error) {
@@ -106,12 +106,12 @@ export default class QuestionStore {
 
   groupQuestionsByDate(questions: IQuestion[]) {
     const sortedQuestions = questions.sort(
-      (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
+      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
     return Object.entries(
       sortedQuestions.reduce(
         (questions, question) => {
-          const date = question.createdAt.toISOString().split('T')[0];
+          const date = question.createdAt.split('T')[0];
           questions[date] = questions[date]
             ? [...questions[date], question]
             : [question];
@@ -130,7 +130,7 @@ export default class QuestionStore {
       runInAction('loading questions', () => {
         questions.forEach(question => {
           setQuestionProps(question);
-          this.questionRegistry.set(question.id, question);
+          this.questionRegistry.set(question._id, question);
         });
         this.questionCount = questionCount;
         this.loadingInitial = false;
@@ -154,7 +154,7 @@ export default class QuestionStore {
         runInAction('getting question', () => {
           setQuestionProps(question);
           this.question = question;
-          this.questionRegistry.set(question.id, question);
+          this.questionRegistry.set(question._id, question);
           this.loadingInitial = false;
         });
         return question;
@@ -185,10 +185,10 @@ export default class QuestionStore {
       question.attendees = attendees;
       question.comments = [];
       runInAction('create question', () => {
-        this.questionRegistry.set(question.id, question);
+        this.questionRegistry.set(question._id, question);
         this.submitting = false;
       });
-      history.push(`/questions/${question.id}`);
+      history.push(`/questions/${question._id}`);
     } catch (error) {
       runInAction('create question error', () => {
         this.submitting = false;
@@ -203,11 +203,11 @@ export default class QuestionStore {
     try {
       await agent.Questions.update(question);
       runInAction('editing question', () => {
-        this.questionRegistry.set(question.id, question);
+        this.questionRegistry.set(question._id, question);
         this.question = question;
         this.submitting = false;
       });
-      history.push(`/questions/${question.id}`);
+      history.push(`/questions/${question._id}`);
     } catch (error) {
       runInAction('edit question error', () => {
         this.submitting = false;
@@ -243,11 +243,11 @@ export default class QuestionStore {
     const attendee = createAttendee(this.rootStore.userStore.user!);
     this.loading = true;
     try {
-      await agent.Questions.attend(this.question!.id);
+      await agent.Questions.attend(this.question!._id);
       runInAction(() => {
         if (this.question) {
           this.question.attendees.push(attendee);
-          this.questionRegistry.set(this.question.id, this.question);
+          this.questionRegistry.set(this.question._id, this.question);
           this.loading = false;
         }
       });
@@ -262,13 +262,13 @@ export default class QuestionStore {
   @action cancelAttendance = async () => {
     this.loading = true;
     try {
-      await agent.Questions.unattend(this.question!.id);
+      await agent.Questions.unattend(this.question!._id);
       runInAction(() => {
         if (this.question) {
           this.question.attendees = this.question.attendees.filter(
             a => a.username !== this.rootStore.userStore.user!.username
           );
-          this.questionRegistry.set(this.question.id, this.question);
+          this.questionRegistry.set(this.question._id, this.question);
           this.loading = false;
         }
       });

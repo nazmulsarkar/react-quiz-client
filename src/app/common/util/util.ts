@@ -17,7 +17,6 @@ export const combineDateAndTime = (date: Date, time: Date) => {
 }
 
 export const setQuestionProps = (question: IQuestion) => {
-  question.createdAt = new Date(question.createdAt);
   return question;
 }
 
@@ -28,7 +27,7 @@ export const setAnswerProps = (answer: IAnswer) => {
 
 export const createAttendee = (user: IUser): IAnswerBy => {
   return {
-    id: user.id,
+    _id: user._id,
     email: user.email,
     displayName: user.displayName,
     username: user.username
