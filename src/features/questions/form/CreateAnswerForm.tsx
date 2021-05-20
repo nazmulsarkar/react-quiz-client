@@ -55,7 +55,7 @@ const CreateAnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
 
   useEffect(() => {
     if (match.params.id) {
-      console.log(match.params)
+      debugger;
       setLoading(true);
       loadQuestion(match.params.id)
         .then(question => {

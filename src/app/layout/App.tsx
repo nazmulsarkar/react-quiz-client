@@ -51,7 +51,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
               <Switch>
                 <PrivateRoute exact path='/questions' roles={[Role.Admin, Role.User]} component={QuestionDashboard} />
                 <PrivateRoute path='/questions/:id' roles={[Role.Admin, Role.User]} component={QuestionDetails} />
-                <PrivateRoute key={location.key} path='/questions/createAnswer/:id' roles={[Role.User]} component={CreateAnswerForm} />
+                <PrivateRoute key={location.key} exact path='/questions/:id/createAnswer' roles={[Role.User]} component={CreateAnswerForm} />
                 <PrivateRoute
                   key={location.key}
                   path={['/createQuestion', '/manage/:id']}

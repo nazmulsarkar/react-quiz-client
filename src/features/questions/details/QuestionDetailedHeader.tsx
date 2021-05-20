@@ -54,7 +54,7 @@ const QuestionDetailedHeader: React.FC<{ question: IQuestion }> = ({
           // <Menu.Item>
           <Button
             as={Link}
-            to={`/questions/createAnswer/${question._id}`}
+            to={`/questions/${question._id}/createAnswer`}
             content='Answer this Question'
             color='teal'
           />
