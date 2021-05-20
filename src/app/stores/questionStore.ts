@@ -147,6 +147,12 @@ export default class QuestionStore {
     }
   };
 
+  @action openAnsweForm = (q: IQuestion) => {
+    this.submitting = true;
+    history.push(`/questions/${q._id}/answers`);
+    this.submitting = false;
+  };
+
   @action editQuestion = async (question: IQuestion) => {
     this.submitting = true;
     try {

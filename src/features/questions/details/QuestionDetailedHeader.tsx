@@ -4,6 +4,8 @@ import { IQuestion } from '../../../app/models/question';
 import { observer } from 'mobx-react-lite';
 import { RootStoreContext } from '../../../app/stores/rootStore';
 import { format } from 'date-fns';
+import { Role } from '../../../app/common/helpers/role';
+import { Link } from 'react-router-dom';
 
 const questionImageStyle = {
   filter: 'brightness(30%)'
@@ -22,7 +24,8 @@ const QuestionDetailedHeader: React.FC<{ question: IQuestion }> = ({
   question
 }) => {
   const rootStore = useContext(RootStoreContext);
-  const { attendQuestion, loading } = rootStore.questionStore;
+  const { user } = rootStore.userStore;
+
   return (
     <Segment.Group>
       <Segment basic attached='top' style={{ padding: '0' }}>
@@ -47,10 +50,14 @@ const QuestionDetailedHeader: React.FC<{ question: IQuestion }> = ({
         </Segment>
       </Segment>
       <Segment clearing attached='bottom'>
-        {(
-          <Button loading={loading} onClick={attendQuestion} color='teal'>
-            Join Question
-          </Button>
+        {user && user.roles && user.roles.includes(Role.User) && (
+          // <Menu.Item>
+          <Button
+            as={Link}
+            to={`/questions/createAnswer/${question._id}`}
+            content='Answer this Question'
+            color='teal'
+          />
         )}
       </Segment>
     </Segment.Group>

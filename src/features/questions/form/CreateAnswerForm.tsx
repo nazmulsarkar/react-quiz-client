@@ -1,13 +1,12 @@
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Segment, Form, Button, Grid } from 'semantic-ui-react';
-import { AnswerFormValues } from '../../../app/models/answer';
+import { QuestionFormValues } from '../../../app/models/question';
 import { v4 as uuid } from 'uuid';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router';
 import { Form as FinalForm, Field } from 'react-final-form';
-import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
-import { combineDateAndTime } from '../../../app/common/util/util';
 import {
   combineValidators,
   isRequired,
@@ -15,12 +14,16 @@ import {
   hasLengthGreaterThan
 } from 'revalidate';
 import { RootStoreContext } from '../../../app/stores/rootStore';
+import SelectInput from '../../../app/common/form/SelectInput';
+import { AnswerFormValues } from '../../../app/models/answer';
+import TextInput from '../../../app/common/form/TextInput';
 
 const validate = combineValidators({
   title: isRequired({ message: 'The event title is required' }),
-  question: isRequired('Question'),
   description: composeValidators(
+    isRequired('Title'),
     isRequired('Description'),
+    isRequired('Question'),
     hasLengthGreaterThan(4)({
       message: 'Description needs to be at least 5 characters'
     })
@@ -31,44 +34,45 @@ interface DetailParams {
   id: string;
 }
 
-const AnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
+const CreateAnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
   history
 }) => {
   const rootStore = useContext(RootStoreContext);
   const {
+    questionsByDate,
+    loadQuestion
+  } = rootStore.questionStore;
+
+  const {
     createAnswer,
-    editAnswer,
     submitting,
-    loadAnswer
   } = rootStore.answerStore;
 
-  const [answer, setAnswer] = useState(new AnswerFormValues());
+  const [question, setQuestion] = useState(new QuestionFormValues());
+  const [answer] = useState(new AnswerFormValues());
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (match.params.id) {
+      console.log(match.params)
       setLoading(true);
-      loadAnswer(match.params.id)
-        .then(answer => {
-          setAnswer(new AnswerFormValues(answer));
+      loadQuestion(match.params.id)
+        .then(question => {
+          setQuestion(new QuestionFormValues(question));
         })
         .finally(() => setLoading(false));
     }
-  }, [loadAnswer, match.params.id]);
+  }, [loadQuestion, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
-    const dateAndTime = combineDateAndTime(values.date, values.time);
     const { date, time, ...answer } = values;
-    answer.date = dateAndTime;
     if (!answer._id) {
       let newAnswer = {
         ...answer,
-        id: uuid()
+        _id: uuid()
       };
       createAnswer(newAnswer);
-    } else {
-      editAnswer(answer);
     }
   };
 
@@ -89,6 +93,13 @@ const AnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   component={TextInput}
                 />
                 <Field
+                  component={SelectInput}
+                  options={questionsByDate}
+                  name='role'
+                  placeholder='Question'
+                  value={question._id}
+                />
+                <Field
                   name='description'
                   placeholder='Description'
                   rows={3}
@@ -106,9 +117,9 @@ const AnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Button
                   onClick={
-                    answer._id
-                      ? () => history.push(`/answers/${answer._id}`)
-                      : () => history.push('/answers')
+                    question._id
+                      ? () => history.push(`/questions/${question._id}`)
+                      : () => history.push('/questions')
                   }
                   disabled={loading}
                   floated='right'
@@ -124,4 +135,4 @@ const AnswerForm: React.FC<RouteComponentProps<DetailParams>> = ({
   );
 };
 
-export default observer(AnswerForm);
+export default observer(CreateAnswerForm);
