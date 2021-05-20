@@ -20,7 +20,7 @@ import QuestionForm from '../../features/questions/form/QuestionForm';
 import QuestionDashboard from '../../features/questions/dashboard/QuestionDashboard';
 import QuestionDetails from '../../features/questions/details/QuestionDetails';
 import AnswerDashboard from '../../features/answers/dashboard/AnswerDashboard';
-import CreateAnswerForm from '../../features/questions/form/CreateAnswerForm';
+import CreateAnswerForm from '../../features/questions/details/CreateAnswerForm';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -51,13 +51,13 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
               <Switch>
                 <PrivateRoute exact path='/questions' roles={[Role.Admin, Role.User]} component={QuestionDashboard} />
                 <PrivateRoute path='/questions/:id' roles={[Role.Admin, Role.User]} component={QuestionDetails} />
-                <PrivateRoute key={location.key} exact path='/questions/:id/createAnswer' roles={[Role.User]} component={CreateAnswerForm} />
                 <PrivateRoute
                   key={location.key}
                   path={['/createQuestion', '/manage/:id']}
                   roles={[Role.Admin]}
                   component={QuestionForm}
                 />
+                <PrivateRoute path='/createAnswer/:id' roles={[Role.User]} component={CreateAnswerForm} />
                 <PrivateRoute exact path='/answers' roles={[Role.Admin]} component={AnswerDashboard} />
                 <Route component={NotFound} />
               </Switch>
